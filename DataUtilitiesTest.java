@@ -15,7 +15,6 @@ public class DataUtilitiesTest {
 	public void setUp() throws Exception { 
 		
 	}
-	
 	// Tests calculateColumnTotal() for two values in a column
 	 @Test
 	 public void calculateColumnTotalForTwoValues() {
@@ -94,7 +93,86 @@ public class DataUtilitiesTest {
 	     assertEquals("Should return column total of 3.0", 3.0, DataUtilities.calculateColumnTotal(values, 1), .000000001d);
 	}
 	
+	// Tests calculateRowTotal() for two values in a row
+	 @Test
+	 public void calculateRowTotalForTwoValues() {
+	     // setup
+	     Mockery mockingContext = new Mockery();
+	     final Values2D values = mockingContext.mock(Values2D.class);
+	     mockingContext.checking(new Expectations() {
+	         {
+	             one(values).getColumnCount();
+	             will(returnValue(2));
+	             one(values).getValue(0, 0); //row column
+	             will(returnValue(7.5));     //7.5 2.5
+	             one(values).getValue(0, 1); //only 7.5
+	             will(returnValue(2.5));
+	         }
+	     });
+
+	     assertEquals("Should return row total of 10.0", 10.0, DataUtilities.calculateRowTotal(values, 0), .000000001d);
+
+	 }
+	
+	// Tests for InvalidParameterException when an invalid data object is passed in
+	@Rule
+	public ExpectedException thrown2 = ExpectedException.none();
+	 
+	@Test(expected = InvalidParameterException.class)
+	public void calculateRowTotalForNull() {
+		thrown.expect(InvalidParameterException.class);
+		thrown.expectMessage("Expected InvalidParameterException");
+		final Values2D nullValue = null;
+		DataUtilities.calculateRowTotal(nullValue, 0);
+		
+	}
+	
+	
+	
+	// Tests calculateRowTotal() for a row index that does not exist
+	@Test
+	public void calculateRowTotalForInvalidRow() {
+	     Mockery mockingContext = new Mockery();
+	     final Values2D values = mockingContext.mock(Values2D.class);
+	     mockingContext.checking(new Expectations() {
+	         {
+	             one(values).getColumnCount();
+	             will(returnValue(3));
+	             one(values).getValue(-1, 0);
+	             will(returnValue(null));
+	             one(values).getValue(-1, 1);
+	             will(returnValue(null));
+	             one(values).getValue(-1, 2);
+	             will(returnValue(null));
+	         }
+	     });
+	     
+	     assertEquals("Should return row total of 0.0", 0.0, DataUtilities.calculateRowTotal(values, -1), .000000001d);
+	}
+	
+	// Tests calculateRowTotal() for table with multiple rows
+	@Test
+	public void calculateRowTotalForTable() {
+	     Mockery mockingContext = new Mockery();
+	     final Values2D values = mockingContext.mock(Values2D.class);
+	     mockingContext.checking(new Expectations() {
+	         {
+	             one(values).getColumnCount();
+	             will(returnValue(2));
+	             one(values).getValue(0, 0); // 7.5 2.5
+	             will(returnValue(7.5));     // 1.0 2.0
+	             one(values).getValue(0, 1); //only 1.0
+	             will(returnValue(2.5));
+	             one(values).getValue(1, 0);
+	             will(returnValue(1.0));
+	             one(values).getValue(1, 1);
+	             will(returnValue(2.0));
+	         }
+	     });
+	     
+	     assertEquals("Should return row total of 3.0", 3.0, DataUtilities.calculateRowTotal(values, 1), .000000001d);
+	}
+	
 
 
 }
-
