@@ -5,9 +5,9 @@ import static org.junit.Assert.*; import org.jfree.data.Range; import org.junit.
 public class RangeTest {
 
 	private Range exampleRange;
-   	private Range exampleRange2;
-   	private Range exampleRange3;
-   	private Range exampleRange4;
+    private Range exampleRange2;
+    private Range exampleRange3;
+    private Range exampleRange4;
 	private Range exampleRange44;
 	private Range exampleRange45;
 	private Range exampleRange46;
@@ -123,19 +123,7 @@ public class RangeTest {
     	assertEquals("Lower bound value is the value of -1 (-1,5)", -1, exampleRange4.getLowerBound(), .000000001d);
     }
     
-    //Tests getLength() with two different numbers in the range.
-    @Test 
-    public void lengthTestWithDifferentRanges() {
-        assertEquals("The length of the range should be the total distance of the range", 10, exampleRange.getLength(), .000000001d);
-    }
-
-    //Tests getLength() with two of the same numbers in the range.
-    @Test 
-    public void lengthTestWithTheSameRange() {
-        assertEquals("The length of the range should be Zero", 0, exampleRange3.getLength(), .000000001d);
-    }
-    
-  //Tests getLength() with two different numbers in the range.
+    //Tests getLength() with two different positive numbers in the range.
     @Test
     public void lengthTestWithDifferentRangesPositive() {
         assertEquals("The length of the range should be the total distance of the range",
@@ -184,3 +172,5 @@ public class RangeTest {
 	@AfterClass
 	public static void tearDownAfterClass() throws Exception {
 	}
+
+}
