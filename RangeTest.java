@@ -70,7 +70,7 @@ public class RangeTest {
     }
 	
 	
-	@After
+    @After
 	public void tearDown() throws Exception {
 	}
 	
