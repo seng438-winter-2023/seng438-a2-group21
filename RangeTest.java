@@ -1,10 +1,12 @@
-package org.jfree.data;
+package org.jfree.data.test;
 
 import static org.junit.Assert.*; import org.jfree.data.Range; import org.junit.*;
 
 public class RangeTest {
 
 	private Range exampleRange;
+    private Range exampleRange2;
+    private Range exampleRange3;
 	@BeforeClass public static void setUpBeforeCLass() throws Exception {
 		
 	}
@@ -12,6 +14,8 @@ public class RangeTest {
 	@Before
 	public void setUp() throws Exception { 
 		exampleRange = new Range(0, 10); 
+        exampleRange2 = new Range(-1, -1);
+        exampleRange3 = new Range(1, 1);
 	}
 	
 	// Tests constrain() for value within range
@@ -37,6 +41,7 @@ public class RangeTest {
 	public void DoubleConstrainTest() {
 		assertEquals("Double value being tested is within the range and should return 5.99", 5.99, exampleRange.constrain(5.99), .000000001d);
 	}	
+	
 	
 	// Tests contains() for value less than lower bounds of range
     @Test
@@ -68,6 +73,30 @@ public class RangeTest {
         assertEquals("Value being tested is on the upper bounds and should return true", true, exampleRange.contains(10));
     }
 	
+    // Tests getUpperBound() for same range values
+	@Test
+    public void getUpperBoundSameRangeValuesTest() {  	
+    	assertEquals("Upper bound is the value of -1 (-1,-1)", -1, exampleRange2.getUpperBound(), .000000001d);
+    }
+    
+    // Tests getUpperBound() for different range values
+    @Test
+    public void getUpperBoundDifferentRangeValuesTest() {  	
+    	assertEquals("Upper bound value is the value of 10 (0,10)", 10, exampleRange.getUpperBound(), .000000001d);
+    }
+    
+    //Tests getLength() with two different numbers in the range.
+    @Test 
+    public void lengthTestWithDifferentRanges() {
+        assertEquals("The length of the range should be the total distance of the range", 10, exampleRange.getLength(), .000000001d);
+    }
+
+    //Tests getLength() with two of the same numbers in the range.
+    @Test 
+    public void lengthTestWithTheSameRange() {
+        assertEquals("The length of the range should be Zero", 0, exampleRange3.getLength(), .000000001d);
+    }
+
     @After
 	public void tearDown() throws Exception {
 	}
