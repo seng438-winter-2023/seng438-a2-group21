@@ -6,15 +6,50 @@ import org.jmock.*; import org.jfree.data.*;
 import java.security.InvalidParameterException;
 
 public class DataUtilitiesTest {
-	
+    // setup of keyed value mocking (put in setup)
+	// Making a KeyedValue mockery
+    Mockery KeyedValuesMock = new Mockery();
+    // Creating a mock object of KeyedValues class
+    final KeyedValues KeyedValuesMockTable = KeyedValuesMock.mock(KeyedValues.class); 
+    
 	@BeforeClass
 	public static void setUpBeforeCLass() throws Exception {
 	}
 	
 	@Before
 	public void setUp() throws Exception { 
-		
+        
+        //Creating expectations of what the values are supposed to be
+        KeyedValuesMock.checking(new Expectations() {
+            {
+            	// Setting up arrays, and testing the methods in KeyedValues
+            	double[] keyValues = {10,40,30,20};
+            	String[] keys = {"0","1","2","3"};
+            	
+            	//Loop in order to setup mock values
+            	for(int i = 0; i < keyValues.length; i++) {
+            		atMost(keys.length).of(KeyedValuesMockTable).getKey(i); 
+            		will(returnValue(keys[i].toString()));
+            		
+            		atMost(keyValues.length).of(KeyedValuesMockTable).getValue(i);
+            		will(returnValue(keyValues[i]));
+            		
+            		atMost(keys.length).of(KeyedValuesMockTable).getIndex(i);
+            		will(returnValue(i));
+            		
+            	}
+            	
+            	allowing(KeyedValuesMockTable).getKeys();
+            	will(returnValue(keys));
+            	
+            	allowing(KeyedValuesMockTable).getItemCount();
+            	will(returnValue(keys.length));
+          		
+            }
+        });
+        
 	}
+	
 	// Tests calculateColumnTotal() for two values in a column
 	 @Test
 	 public void calculateColumnTotalForTwoValues() {
@@ -173,6 +208,40 @@ public class DataUtilitiesTest {
 	     assertEquals("Should return row total of 3.0", 3.0, DataUtilities.calculateRowTotal(values, 1), .000000001d);
 	}
 	
+		@Test // Tests the first value for the getCumulativePercentages() method.
+		public void getCumulativePercetagesTestValue1() {
+		KeyedValues finalTest = DataUtilities.getCumulativePercentages(KeyedValuesMockTable);
+		assertEquals("The first percentage is 10/100, it should be 0.10"
+		, 0.1, (double) finalTest.getValue(0), .000000001d);
+}
+		
+		@Test // Tests the second value for the getCumulativePercentages() method.
+		public void getCumulativePercetagesTestValue2() {
+			KeyedValues finalTest = DataUtilities.getCumulativePercentages(KeyedValuesMockTable);
+			assertEquals("The second percentage is 50/100, it should be 0.50"
+			, 0.5, (double) finalTest.getValue(1), .000000001d);
+}
+	
+ 		@Test // Tests the third value for the getCumulativePercentages() method.
+ 		public void getCumulativePercetagesTestValue3() {
+ 			KeyedValues finalTest = DataUtilities.getCumulativePercentages(KeyedValuesMockTable);
+ 			assertEquals("The third percentage is 80/100, it should be 0.80"
+ 			, 0.8, (double) finalTest.getValue(2), .000000001d);
+    }
+	
+	 	@Test // Tests the fourth value for the getCumulativePercentages() method.
+	    public void getCumulativePercetagesTestValue4() {
+	    	KeyedValues finalTest = DataUtilities.getCumulativePercentages(KeyedValuesMockTable);
+	        assertEquals("The fourth percentage is 100/100, it should be 1.0"
+	        , 1.0, (double) finalTest.getValue(3), .000000001d);
+	    }
 
+	 	@Rule // Testing InvalidParameterException for getCumulativePercentages with an invalid input
+		public ExpectedException invalidException = ExpectedException.none();
+		
+		@Test // Testing InvalidParameterException for getCumulativePercentages with an invalid input
+		public void getCumulativePercentagesInvalid() {
+			invalidException.expect(InvalidParameterException.class);
+		}
 
 }
