@@ -5,9 +5,15 @@ import static org.junit.Assert.*; import org.jfree.data.Range; import org.junit.
 public class RangeTest {
 
 	private Range exampleRange;
-    private Range exampleRange2;
-    private Range exampleRange3;
-    private Range exampleRange4;
+   	private Range exampleRange2;
+   	private Range exampleRange3;
+   	private Range exampleRange4;
+	private Range exampleRange44;
+	private Range exampleRange45;
+	private Range exampleRange46;
+	private Range exampleRange47;
+	private Range exampleRange48;
+	private Range exampleRange49;
 	@BeforeClass public static void setUpBeforeCLass() throws Exception {
 		
 	}
@@ -18,6 +24,12 @@ public class RangeTest {
         exampleRange2 = new Range(-1, -1);
         exampleRange3 = new Range(1, 1);
         exampleRange4 = new Range(-1, 5);
+        exampleRange44 = new Range(1, 10); 
+        exampleRange45 = new Range(1, 1);
+        exampleRange46 = new Range(0, 0);
+        exampleRange47 = new Range(-1, -1);
+        exampleRange48 = new Range(-10, 10);
+        exampleRange49 = new Range(-10, -1);
 	}
 	
 	// Tests constrain() for value within range
@@ -122,6 +134,48 @@ public class RangeTest {
     public void lengthTestWithTheSameRange() {
         assertEquals("The length of the range should be Zero", 0, exampleRange3.getLength(), .000000001d);
     }
+    
+  //Tests getLength() with two different numbers in the range.
+    @Test
+    public void lengthTestWithDifferentRangesPositive() {
+        assertEquals("The length of the range should be the total distance of the range",
+        9, exampleRange44.getLength(), .000000001d);
+    }
+    
+    //Tests getLength() with two of the same numbers in the range positive.
+    @Test
+    public void lengthTestWithTheSameRangePositive() {
+        assertEquals("The length of the range should be Zero",
+        0, exampleRange45.getLength(), .000000001d);
+    }
+    
+    //Tests getLength() with two of the same numbers in the range this time 0.
+    @Test
+    public void lengthTestWithTheSameRangeZero() {
+        assertEquals("The length of the range should be Zero",
+        0, exampleRange46.getLength(), .000000001d);
+    }
+    
+    //Tests getLength() with two of the same numbers in the range negative.
+    @Test
+    public void lengthTestWithTheSameRangeNegative() {
+        assertEquals("The length of the range should be Zero",
+        0, exampleRange47.getLength(), .000000001d);
+    }
+    
+    //Tests getLength() with two different numbers in the range negative and positive.
+    @Test
+    public void lengthTestWithDifferentRangesNegativePositive() {
+        assertEquals("The length of the range should be the total distance of the range",
+        20, exampleRange48.getLength(), .000000001d);
+    }
+    
+    //Tests getLength() with two different numbers in the range negative.
+    @Test 
+    public void lengthTestWithDifferentRangesNegative() {
+        assertEquals("The length of the range should be the total distance of the range",
+        9, exampleRange49.getLength(), .000000001d);
+    }
 
     @After
 	public void tearDown() throws Exception {
@@ -130,5 +184,3 @@ public class RangeTest {
 	@AfterClass
 	public static void tearDownAfterClass() throws Exception {
 	}
-
-}
