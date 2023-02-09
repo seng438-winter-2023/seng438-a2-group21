@@ -38,7 +38,6 @@ public class RangeTest {
 		assertEquals("Double value being tested is within the range and should return 5.99", 5.99, exampleRange.constrain(5.99), .000000001d);
 	}	
 	
-	
 	// Tests contains() for value less than lower bounds of range
     @Test
     public void lowerOutOfBoundsValueContains() {
@@ -68,7 +67,6 @@ public class RangeTest {
     public void valueIsOnUpperBoundsContains() {
         assertEquals("Value being tested is on the upper bounds and should return true", true, exampleRange.contains(10));
     }
-	
 	
     @After
 	public void tearDown() throws Exception {
