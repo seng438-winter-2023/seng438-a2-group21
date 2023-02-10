@@ -246,6 +246,72 @@ public class DataUtilitiesTest {
 			final KeyedValues KeyedNullValue = null;
 			DataUtilities.getCumulativePercentages(KeyedNullValue);
 		}
-
-
+	//createNumberArray
+		@Test
+		//testing positive decimals values
+		public void testCreateNumberArrayPositive() {
+			double[] testData = {1.1, 2.2, 3.3, 4.4, 5.5, 7.7, 8.8};
+			Number[] result = DataUtilities.createNumberArray(testData);
+			assertTrue(result instanceof Number[]);
+		}
+		@Test
+		//testing negative decimals values
+		public void testCreateNumberArrayNegative() {
+			double[] testData = {-1.1, -2.2, -3.3, -4.4, -5.5, -7.7, -8.8};
+			Number[] result = DataUtilities.createNumberArray(testData);
+			assertTrue(result instanceof Number[]);
+		}
+		@Test
+		//testing both positive and negative values
+		public void testCreateNumberArrayAll() {
+			double[] testData = {-4.4, -3.3, -2.2, -1.1, 1.1, 2.2, 3.3};
+			Number[] result = DataUtilities.createNumberArray(testData);
+			assertTrue(result instanceof Number[]);
+		}
+		@Rule // Testing InvalidParameterException for createNumberArray with an invalid input
+		public ExpectedException invalidNumArrayException = ExpectedException.none();
+		
+		// Testing InvalidParameterException for createNumberArray with an invalid input
+		@Test(expected = IllegalArgumentException.class)
+		public void createNumberArrayInvalid() {
+			invalidNumArrayException.expect(InvalidParameterException.class);
+			invalidNumArrayException.expectMessage("Expected InvalidParameterException");
+			final double[] numArray = null;
+			DataUtilities.createNumberArray(numArray);
+		}
+		
+		//createNumberArray2D
+		@Test
+		//testing positive decimals values
+		public void testCreateNumberArray2DPositive() {
+			double[][] testData = {{1.1, 2.2}, {3.3, 4.4}};
+			Number[][] result = DataUtilities.createNumberArray2D(testData);
+			assertTrue(result instanceof Number[][]);
+		}
+		@Test
+		//testing negative decimals values
+		public void testCreateNumberArray2DNegative() {
+			double[][] testData = {{-1.1, -2.2}, { -3.3, -4.4}};
+			Number[][] result = DataUtilities.createNumberArray2D(testData);
+			assertTrue(result instanceof Number[][]);
+		}
+		@Test
+		//testing both positive and negative values
+		public void testCreateNumberArray2DAll() {
+			double[][] testData = {{ -2.2, -1.1}, {1.1, 2.2}};
+			Number[][] result = DataUtilities.createNumberArray2D(testData);
+			assertTrue(result instanceof Number[][]);
+		}
+		
+		@Rule // Testing InvalidParameterException for createNumberArray with an invalid input
+		public ExpectedException invalidNumArray2DException = ExpectedException.none();
+		
+		// Testing InvalidParameterException for createNumberArray with an invalid input
+		@Test(expected = IllegalArgumentException.class)
+		public void createNumberArray2DInvalid() {
+			invalidNumArray2DException.expect(InvalidParameterException.class);
+			invalidNumArray2DException.expectMessage("Expected InvalidParameterException");
+			final double[][] numArray2D = null;
+			DataUtilities.createNumberArray2D(numArray2D);
+		}
 }
