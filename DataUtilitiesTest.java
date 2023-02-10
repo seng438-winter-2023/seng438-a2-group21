@@ -239,9 +239,13 @@ public class DataUtilitiesTest {
 	 	@Rule // Testing InvalidParameterException for getCumulativePercentages with an invalid input
 		public ExpectedException invalidException = ExpectedException.none();
 		
-		@Test // Testing InvalidParameterException for getCumulativePercentages with an invalid input
+		@Test (expected = InvalidParameterException.class)
 		public void getCumulativePercentagesInvalid() {
 			invalidException.expect(InvalidParameterException.class);
+			invalidException.expectMessage("Expected InvalidParameterException");
+			final KeyedValues KeyedNullValue = null;
+			DataUtilities.getCumulativePercentages(KeyedNullValue);
 		}
+
 
 }
